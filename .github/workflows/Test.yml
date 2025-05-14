@@ -1,0 +1,92 @@
+name: build
+run-name: build-"${{ github.event.pull_request.number }}"
+on:
+  pull_request_target:
+    types:
+    - open
+    - reopened
+    - synchronize
+    branches:
+    - main
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'branch name'
+        required: false
+        default: 'main'
+        type: string
+
+jobs:
+  init:
+    runs-on: "ubuntu-latest"
+    name: Init
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # - name: lint
+    #   uses: super-linter/super-linter@v7.3.0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    runs-on: "ubuntu-latest"
+    name: Build
+    needs:
+    - init
+    steps:
+    - name: Code Build
+      run: |
+        echo "this is my build"
+
+  test:
+    runs-on: "ubuntu-latest"
+    name: Test
+    needs:
+    - init
+    steps:
+    - name: Unit Test
+      run: |
+        echo "this is my build"
+
+  scan:
+    runs-on: "ubuntu-latest"
+    name: Scan
+    needs:
+    - init
+    steps:
+    - name: Sonar Scan
+      run: |
+        echo "this is my build"
+    - name: Trivy Scan
+      run: |
+        echo "this is my build"
+
+  deploy_dev:
+    runs-on: "ubuntu-latest"
+    name: Deploy_dev
+    needs:
+    - init
+    steps:
+    - name: deploy
+      run: |
+        echo "this is Deploy dev"
+
+  deploy_qa:
+    runs-on: "ubuntu-latest"
+    name: Deploy_QA
+    needs:
+    - init
+    steps:
+    - name: deploy
+      run: |
+        echo "this is deploy qa"
+
+
