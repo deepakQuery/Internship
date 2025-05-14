@@ -1,5 +1,6 @@
-name: build
-run-name: build-"${{ github.event.pull_request.number }}"
+name: Build
+
+run-name: build-${{ github.event.pull_request.number }}
 on:
   pull_request_target:
     types:
